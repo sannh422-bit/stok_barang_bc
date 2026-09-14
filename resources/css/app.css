@@ -1,0 +1,68 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+@import './admin.css';
+/* ===========================
+   DASHBOARD
+=========================== */
+
+.dashboard-card{
+    border:none;
+    border-radius:18px;
+    transition:.3s;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.dashboard-card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 20px 45px rgba(0,0,0,.15);
+
+}
+
+.dashboard-card .card-body{
+
+    padding:25px;
+
+}
+
+.dashboard-icon{
+
+    width:60px;
+
+    height:60px;
+
+    border-radius:15px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:#fff;
+
+    font-size:26px;
+
+    transition:.3s;
+
+}
+
+.dashboard-card:hover .dashboard-icon{
+
+    transform:rotate(-10deg) scale(1.1);
+
+}
+
+.dashboard-card h2{
+
+    font-weight:700;
+
+}
+
+.dashboard-card h4{
+
+    font-weight:700;
+
+}
