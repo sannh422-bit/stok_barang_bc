@@ -6,10 +6,11 @@
 
 <div class="container-fluid">
 
-    {{-- HEADER --}}
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    {{-- HEADER WEBSITE --}}
+    <div class="d-flex justify-content-between align-items-center mb-4 no-print">
 
         <div>
+
             <h2 class="fw-bold mb-1">
                 Laporan Barang Keluar
             </h2>
@@ -17,15 +18,76 @@
             <p class="text-muted mb-0">
                 Riwayat transaksi seluruh barang yang keluar.
             </p>
+
         </div>
 
-        <button onclick="window.print()" class="btn btn-primary">
 
-            <i class="bi bi-printer me-1"></i>
+        <div class="d-flex gap-2">
 
-            Cetak Laporan
+            {{-- KEMBALI --}}
+            <a href="{{ route('laporan.stok') }}"
+               class="btn btn-secondary">
 
-        </button>
+                <i class="bi bi-arrow-left me-1"></i>
+                Kembali ke Laporan
+
+            </a>
+
+
+            {{-- CETAK --}}
+            <button onclick="window.print()"
+                    class="btn btn-primary">
+
+                <i class="bi bi-printer me-1"></i>
+                Cetak Laporan
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    {{-- HEADER PRINT --}}
+    <div class="print-header d-none">
+
+        <h3 class="fw-bold mb-1">
+            BUSINESS CENTER
+        </h3>
+
+        <h5 class="fw-bold mb-1">
+            SMKN 5 KABUPATEN TANGERANG
+        </h5>
+
+        <h4 class="fw-bold mt-3 mb-1">
+            LAPORAN BARANG KELUAR
+        </h4>
+
+        <p class="mb-1">
+            Riwayat transaksi seluruh barang yang keluar.
+        </p>
+
+        <small>
+
+            Periode:
+
+            {{ request('tanggal_mulai')
+                ? \Carbon\Carbon::parse(request('tanggal_mulai'))->format('d-m-Y')
+                : 'Semua' }}
+
+            s/d
+
+            {{ request('tanggal_akhir')
+                ? \Carbon\Carbon::parse(request('tanggal_akhir'))->format('d-m-Y')
+                : 'Semua' }}
+
+        </small>
+
+        <br>
+
+        <small>
+            Dicetak pada {{ now()->format('d-m-Y H:i') }}
+        </small>
 
     </div>
 
@@ -35,7 +97,7 @@
 
         <div class="col-md-6">
 
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow-sm h-100">
 
                 <div class="card-body">
 
@@ -44,9 +106,7 @@
                     </small>
 
                     <h3 class="fw-bold mt-2 mb-0">
-
                         {{ $totalTransaksi }}
-
                     </h3>
 
                 </div>
@@ -58,7 +118,7 @@
 
         <div class="col-md-6">
 
-            <div class="card border-0 shadow-sm">
+            <div class="card border-0 shadow-sm h-100">
 
                 <div class="card-body">
 
@@ -67,9 +127,7 @@
                     </small>
 
                     <h3 class="fw-bold text-danger mt-2 mb-0">
-
                         {{ $totalJumlah }}
-
                     </h3>
 
                 </div>
@@ -81,8 +139,21 @@
     </div>
 
 
-    {{-- FILTER TANGGAL --}}
-    <div class="card border-0 shadow-sm mb-4">
+    {{-- FILTER --}}
+    <div class="card border-0 shadow-sm mb-4 no-print">
+
+        <div class="card-header bg-white">
+
+            <h5 class="fw-bold mb-0">
+
+                <i class="bi bi-funnel text-primary me-2"></i>
+
+                Filter Laporan
+
+            </h5>
+
+        </div>
+
 
         <div class="card-body">
 
@@ -97,12 +168,10 @@
                             Tanggal Mulai
                         </label>
 
-                        <input
-                            type="date"
-                            name="tanggal_mulai"
-                            class="form-control"
-                            value="{{ request('tanggal_mulai') }}"
-                        >
+                        <input type="date"
+                               name="tanggal_mulai"
+                               class="form-control"
+                               value="{{ request('tanggal_mulai') }}">
 
                     </div>
 
@@ -113,36 +182,35 @@
                             Tanggal Akhir
                         </label>
 
-                        <input
-                            type="date"
-                            name="tanggal_akhir"
-                            class="form-control"
-                            value="{{ request('tanggal_akhir') }}"
-                        >
+                        <input type="date"
+                               name="tanggal_akhir"
+                               class="form-control"
+                               value="{{ request('tanggal_akhir') }}">
 
                     </div>
 
 
-                    <div class="col-md-2 d-flex gap-2">
+                    <div class="col-md-2">
 
-                        <button
-                            type="submit"
-                            class="btn btn-primary w-100">
+                        <div class="d-flex gap-2">
 
-                            <i class="bi bi-search me-1"></i>
+                            <button type="submit"
+                                    class="btn btn-primary flex-grow-1">
 
-                            Filter
+                                <i class="bi bi-search me-1"></i>
+                                Filter
 
-                        </button>
+                            </button>
 
 
-                        <a
-                            href="{{ route('laporan.barang-keluar') }}"
-                            class="btn btn-secondary">
+                            <a href="{{ route('laporan.barang-keluar') }}"
+                               class="btn btn-light border">
 
-                            <i class="bi bi-arrow-counterclockwise"></i>
+                                <i class="bi bi-arrow-clockwise"></i>
 
-                        </a>
+                            </a>
+
+                        </div>
 
                     </div>
 
@@ -155,7 +223,22 @@
     </div>
 
 
-    {{-- TABEL --}}
+    {{-- INFORMASI FILTER --}}
+    @if(request()->filled('tanggal_mulai') || request()->filled('tanggal_akhir'))
+
+        <div class="alert alert-light border mb-4 no-print">
+
+            <i class="bi bi-info-circle me-2"></i>
+
+            Menampilkan data barang keluar berdasarkan periode
+            tanggal yang dipilih.
+
+        </div>
+
+    @endif
+
+
+    {{-- DATA --}}
     <div class="card border-0 shadow-sm">
 
         <div class="card-header bg-white">
@@ -190,11 +273,19 @@
                             </th>
 
                             <th>
-                                Barang
+                                Kode Barang
+                            </th>
+
+                            <th>
+                                Nama Barang
                             </th>
 
                             <th class="text-center">
                                 Jumlah
+                            </th>
+
+                            <th>
+                                Keterangan
                             </th>
 
                         </tr>
@@ -204,64 +295,71 @@
 
                     <tbody>
 
-                    @forelse($barangKeluar as $item)
+                        @forelse($barangKeluar as $item)
 
-                        <tr>
+                            <tr>
 
-                            <td>
-                                {{ $loop->iteration }}
-                            </td>
+                                <td>
+                                    {{ $loop->iteration }}
+                                </td>
 
+                                <td>
+                                    {{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}
+                                </td>
 
-                            <td>
+                                <td>
 
-                                {{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}
+                                    <strong>
+                                        {{ $item->barang->kode_barang ?? '-' }}
+                                    </strong>
 
-                            </td>
+                                </td>
 
-
-                            <td>
-
-                                <strong>
-
+                                <td>
                                     {{ $item->barang->nama_barang ?? '-' }}
+                                </td>
 
-                                </strong>
+                                <td class="text-center">
 
-                            </td>
+                                    <strong>
+                                        {{ $item->jumlah }}
+                                    </strong>
 
+                                </td>
 
-                            <td class="text-center">
+                                <td>
+                                    {{ $item->keterangan ?? '-' }}
+                                </td>
 
-                                <span class="badge bg-danger">
+                            </tr>
 
-                                    {{ $item->jumlah }}
+                        @empty
 
-                                </span>
+                            <tr>
 
-                            </td>
+                                <td colspan="6"
+                                    class="text-center py-5">
 
-                        </tr>
+                                    <i class="bi bi-inbox display-5 text-muted"></i>
 
-                    @empty
+                                    <br><br>
 
-                        <tr>
+                                    <strong>
+                                        Belum ada data barang keluar.
+                                    </strong>
 
-                            <td
-                                colspan="4"
-                                class="text-center py-5">
+                                    <br>
 
-                                <i class="bi bi-inbox display-5 text-muted"></i>
+                                    <small class="text-muted">
+                                        Coba ubah periode tanggal atau
+                                        tambahkan transaksi barang keluar.
+                                    </small>
 
-                                <br><br>
+                                </td>
 
-                                Belum ada data barang keluar.
+                            </tr>
 
-                            </td>
-
-                        </tr>
-
-                    @endforelse
+                        @endforelse
 
                     </tbody>
 

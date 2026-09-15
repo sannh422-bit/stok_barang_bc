@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
 
-    {{-- HEADER --}}
+    {{-- HEADER WEBSITE --}}
     <div class="d-flex justify-content-between align-items-center mb-4 no-print">
 
         <div>
@@ -19,20 +19,33 @@
             </p>
         </div>
 
-        <button
-            onclick="window.print()"
-            class="btn btn-primary">
+        <div class="d-flex gap-2">
 
-            <i class="bi bi-printer me-1"></i>
-            Cetak Laporan
+            {{-- KEMBALI --}}
+            <a href="{{ route('laporan.stok') }}"
+               class="btn btn-secondary">
 
-        </button>
+                <i class="bi bi-arrow-left me-1"></i>
+                Kembali ke Laporan
+
+            </a>
+
+            {{-- CETAK --}}
+            <button onclick="window.print()"
+                    class="btn btn-primary">
+
+                <i class="bi bi-printer me-1"></i>
+                Cetak Laporan
+
+            </button>
+
+        </div>
 
     </div>
 
 
     {{-- HEADER KHUSUS PRINT --}}
-    <div class="print-header d-none text-center mb-4">
+    <div class="print-header d-none">
 
         <h3 class="fw-bold mb-1">
             BUSINESS CENTER
@@ -52,7 +65,6 @@
 
         <small>
             Periode:
-
             {{ request('tanggal_mulai')
                 ? \Carbon\Carbon::parse(request('tanggal_mulai'))->format('d-m-Y')
                 : 'Semua' }}
@@ -62,7 +74,6 @@
             {{ request('tanggal_akhir')
                 ? \Carbon\Carbon::parse(request('tanggal_akhir'))->format('d-m-Y')
                 : 'Semua' }}
-
         </small>
 
         <br>
@@ -75,9 +86,8 @@
 
 
     {{-- RINGKASAN --}}
-    <div class="row g-3 mb-4 no-print">
+    <div class="row g-3 mb-4">
 
-        {{-- TOTAL TRANSAKSI --}}
         <div class="col-md-6">
 
             <div class="card border-0 shadow-sm h-100">
@@ -99,7 +109,6 @@
         </div>
 
 
-        {{-- TOTAL BARANG MASUK --}}
         <div class="col-md-6">
 
             <div class="card border-0 shadow-sm h-100">
@@ -123,7 +132,7 @@
     </div>
 
 
-    {{-- FILTER TANGGAL --}}
+    {{-- FILTER --}}
     <div class="card border-0 shadow-sm mb-4 no-print">
 
         <div class="card-header bg-white">
@@ -141,54 +150,45 @@
 
         <div class="card-body">
 
-            <form
-                method="GET"
-                action="{{ route('laporan.barang-masuk') }}">
+            <form method="GET"
+                  action="{{ route('laporan.barang-masuk') }}">
 
                 <div class="row g-3 align-items-end">
 
-                    {{-- TANGGAL MULAI --}}
                     <div class="col-md-5">
 
                         <label class="form-label fw-semibold">
                             Tanggal Mulai
                         </label>
 
-                        <input
-                            type="date"
-                            name="tanggal_mulai"
-                            class="form-control"
-                            value="{{ request('tanggal_mulai') }}"
-                        >
+                        <input type="date"
+                               name="tanggal_mulai"
+                               class="form-control"
+                               value="{{ request('tanggal_mulai') }}">
 
                     </div>
 
 
-                    {{-- TANGGAL AKHIR --}}
                     <div class="col-md-5">
 
                         <label class="form-label fw-semibold">
                             Tanggal Akhir
                         </label>
 
-                        <input
-                            type="date"
-                            name="tanggal_akhir"
-                            class="form-control"
-                            value="{{ request('tanggal_akhir') }}"
-                        >
+                        <input type="date"
+                               name="tanggal_akhir"
+                               class="form-control"
+                               value="{{ request('tanggal_akhir') }}">
 
                     </div>
 
 
-                    {{-- TOMBOL --}}
                     <div class="col-md-2">
 
                         <div class="d-flex gap-2">
 
-                            <button
-                                type="submit"
-                                class="btn btn-primary flex-grow-1">
+                            <button type="submit"
+                                    class="btn btn-primary flex-grow-1">
 
                                 <i class="bi bi-search me-1"></i>
                                 Filter
@@ -196,10 +196,8 @@
                             </button>
 
 
-                            <a
-                                href="{{ route('laporan.barang-masuk') }}"
-                                class="btn btn-light border"
-                                title="Reset Filter">
+                            <a href="{{ route('laporan.barang-masuk') }}"
+                               class="btn btn-light border">
 
                                 <i class="bi bi-arrow-clockwise"></i>
 
@@ -218,22 +216,22 @@
     </div>
 
 
-    {{-- INFO FILTER --}}
-    @if(request()->filled('tanggal_mulai') ||
-        request()->filled('tanggal_akhir'))
+    {{-- INFORMASI FILTER --}}
+    @if(request()->filled('tanggal_mulai') || request()->filled('tanggal_akhir'))
 
         <div class="alert alert-light border mb-4 no-print">
 
             <i class="bi bi-info-circle me-2"></i>
 
-            Menampilkan data barang masuk berdasarkan periode yang dipilih.
+            Menampilkan data barang masuk berdasarkan periode
+            tanggal yang dipilih.
 
         </div>
 
     @endif
 
 
-    {{-- TABEL --}}
+    {{-- DATA --}}
     <div class="card border-0 shadow-sm">
 
         <div class="card-header bg-white">
@@ -290,92 +288,69 @@
 
                     <tbody>
 
-                    @forelse($barangMasuk as $item)
+                        @forelse($barangMasuk as $item)
 
-                        <tr>
+                            <tr>
 
-                            {{-- NO --}}
-                            <td>
-                                {{ $loop->iteration }}
-                            </td>
+                                <td>
+                                    {{ $loop->iteration }}
+                                </td>
 
+                                <td>
+                                    {{ \Carbon\Carbon::parse($item->tanggal)->format('d-m-Y') }}
+                                </td>
 
-                            {{-- TANGGAL --}}
-                            <td>
+                                <td>
+                                    <strong>
+                                        {{ $item->barang->kode_barang ?? '-' }}
+                                    </strong>
+                                </td>
 
-                                {{ \Carbon\Carbon::parse(
-                                    $item->tanggal
-                                )->format('d-m-Y') }}
+                                <td>
+                                    {{ $item->barang->nama_barang ?? '-' }}
+                                </td>
 
-                            </td>
+                                <td class="text-center">
 
+                                    <strong>
+                                        {{ $item->jumlah }}
+                                    </strong>
 
-                            {{-- KODE BARANG --}}
-                            <td>
+                                </td>
 
-                                <span class="fw-semibold">
-                                    {{ $item->barang->kode_barang ?? '-' }}
-                                </span>
+                                <td>
+                                    {{ $item->keterangan ?? '-' }}
+                                </td>
 
-                            </td>
+                            </tr>
 
+                        @empty
 
-                            {{-- NAMA BARANG --}}
-                            <td>
+                            <tr>
 
-                                {{ $item->barang->nama_barang ?? '-' }}
+                                <td colspan="6"
+                                    class="text-center py-5">
 
-                            </td>
+                                    <i class="bi bi-inbox display-5 text-muted"></i>
 
+                                    <br><br>
 
-                            {{-- JUMLAH --}}
-                            <td class="text-center">
+                                    <strong>
+                                        Belum ada data barang masuk.
+                                    </strong>
 
-                                <span class="badge bg-success">
+                                    <br>
 
-                                    {{ $item->jumlah }}
+                                    <small class="text-muted">
+                                        Coba ubah periode tanggal atau
+                                        tambahkan transaksi barang masuk.
+                                    </small>
 
-                                </span>
+                                </td>
 
-                            </td>
+                            </tr>
 
-
-                            {{-- KETERANGAN --}}
-                            <td>
-
-                                {{ $item->keterangan ?? '-' }}
-
-                            </td>
-
-                        </tr>
-
-                    @empty
-
-                        <tr>
-
-                            <td
-                                colspan="6"
-                                class="text-center py-5">
-
-                                <i class="bi bi-inbox display-5 text-muted"></i>
-
-                                <br><br>
-
-                                <strong>
-                                    Belum ada data barang masuk.
-                                </strong>
-
-                                <br>
-
-                                <small class="text-muted">
-                                    Coba ubah periode tanggal atau tambahkan transaksi barang masuk.
-                                </small>
-
-                            </td>
-
-                        </tr>
-
-                    @endforelse
+                        @endforelse
 
                     </tbody>
 

@@ -11,19 +11,22 @@
 
         <div>
             <h2 class="fw-bold mb-1">
-                Laporan Stok
+                Laporan
             </h2>
 
             <p class="text-muted mb-0">
-                Informasi stok seluruh barang Business Center.
+                Informasi dan laporan Business Center.
             </p>
         </div>
 
         <button
             onclick="window.print()"
             class="btn btn-primary">
+
             <i class="bi bi-printer me-1"></i>
+
             Cetak Laporan
+
         </button>
 
     </div>
@@ -55,17 +58,175 @@
     </div>
 
 
+    {{-- PILIH LAPORAN --}}
+    <div class="card border-0 shadow-sm mb-4 no-print">
+
+        <div class="card-header bg-white">
+
+            <h5 class="fw-bold mb-0">
+
+                <i class="bi bi-file-earmark-text text-primary me-2"></i>
+
+                Pilih Laporan
+
+            </h5>
+
+        </div>
+
+
+        <div class="card-body">
+
+            <div class="row g-3">
+
+                {{-- LAPORAN STOK --}}
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ route('laporan.stok') }}"
+                        class="text-decoration-none">
+
+                        <div class="border rounded p-3 h-100 bg-primary text-white">
+
+                            <div class="d-flex align-items-center">
+
+                                <div class="me-3">
+
+                                    <i class="bi bi-box-seam fs-2"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h6 class="fw-bold mb-1">
+                                        Laporan Stok
+                                    </h6>
+
+                                    <small>
+                                        Melihat kondisi stok seluruh barang.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                {{-- LAPORAN BARANG MASUK --}}
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ route('laporan.barang-masuk') }}"
+                        class="text-decoration-none">
+
+                        <div class="border rounded p-3 h-100 bg-white">
+
+                            <div class="d-flex align-items-center">
+
+                                <div class="me-3">
+
+                                    <i class="bi bi-box-arrow-in-down fs-2 text-success"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h6 class="fw-bold mb-1 text-dark">
+                                        Laporan Barang Masuk
+                                    </h6>
+
+                                    <small class="text-muted">
+                                        Melihat riwayat barang yang masuk.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                {{-- LAPORAN BARANG KELUAR --}}
+                <div class="col-md-4">
+
+                    <a
+                        href="{{ route('laporan.barang-keluar') }}"
+                        class="text-decoration-none">
+
+                        <div class="border rounded p-3 h-100 bg-white">
+
+                            <div class="d-flex align-items-center">
+
+                                <div class="me-3">
+
+                                    <i class="bi bi-box-arrow-up fs-2 text-danger"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h6 class="fw-bold mb-1 text-dark">
+                                        Laporan Barang Keluar
+                                    </h6>
+
+                                    <small class="text-muted">
+                                        Melihat riwayat barang yang keluar.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    {{-- JUDUL LAPORAN STOK --}}
+    <div class="mb-3 no-print">
+
+        <h4 class="fw-bold mb-1">
+            Laporan Stok
+        </h4>
+
+        <p class="text-muted mb-0">
+            Informasi stok seluruh barang Business Center.
+        </p>
+
+    </div>
+
+
     {{-- FILTER --}}
     <div class="card border-0 shadow-sm mb-4 no-print">
 
         <div class="card-header bg-white">
 
             <h5 class="fw-bold mb-0">
+
                 <i class="bi bi-funnel text-primary me-2"></i>
+
                 Filter Laporan
+
             </h5>
 
         </div>
+
 
         <div class="card-body">
 
@@ -150,19 +311,25 @@
                             <option
                                 value="aman"
                                 {{ request('status') == 'aman' ? 'selected' : '' }}>
+
                                 Aman
+
                             </option>
 
                             <option
                                 value="menipis"
                                 {{ request('status') == 'menipis' ? 'selected' : '' }}>
+
                                 Menipis
+
                             </option>
 
                             <option
                                 value="habis"
                                 {{ request('status') == 'habis' ? 'selected' : '' }}>
+
                                 Habis
+
                             </option>
 
                         </select>
@@ -180,9 +347,11 @@
                                 class="btn btn-primary flex-grow-1">
 
                                 <i class="bi bi-search me-1"></i>
+
                                 Cari
 
                             </button>
+
 
                             <a
                                 href="{{ route('laporan.stok') }}"
@@ -206,7 +375,23 @@
     </div>
 
 
-    {{-- RINGKASAN --}}
+    {{-- HASIL FILTER --}}
+    @if(request()->filled('search') ||
+        request()->filled('kategori_id') ||
+        request()->filled('status'))
+
+        <div class="alert alert-light border mb-4 no-print">
+
+            <i class="bi bi-info-circle me-2"></i>
+
+            Menampilkan hasil berdasarkan filter yang dipilih.
+
+        </div>
+
+    @endif
+
+
+    {{-- RINGKASAN STOK --}}
     <div class="row g-3 mb-4 no-print">
 
         {{-- TOTAL BARANG --}}
@@ -321,22 +506,6 @@
     </div>
 
 
-    {{-- HASIL FILTER --}}
-    @if(request()->filled('search') ||
-        request()->filled('kategori_id') ||
-        request()->filled('status'))
-
-        <div class="alert alert-light border mb-4 no-print">
-
-            <i class="bi bi-info-circle me-2"></i>
-
-            Menampilkan hasil berdasarkan filter yang dipilih.
-
-        </div>
-
-    @endif
-
-
     {{-- TABEL --}}
     <div class="card border-0 shadow-sm">
 
@@ -414,33 +583,41 @@
 
                         <tr>
 
+                            {{-- NO --}}
                             <td>
                                 {{ $loop->iteration }}
                             </td>
 
 
+                            {{-- KODE --}}
                             <td>
+
                                 <span class="fw-semibold">
                                     {{ $item->kode_barang }}
                                 </span>
+
                             </td>
 
 
+                            {{-- NAMA --}}
                             <td>
                                 {{ $item->nama_barang }}
                             </td>
 
 
+                            {{-- KATEGORI --}}
                             <td>
                                 {{ $item->kategori->nama_kategori ?? '-' }}
                             </td>
 
 
+                            {{-- SUPPLIER --}}
                             <td>
                                 {{ $item->supplier->nama_supplier ?? '-' }}
                             </td>
 
 
+                            {{-- STOK --}}
                             <td class="text-center">
 
                                 @if($item->stok <= 0)
@@ -466,11 +643,13 @@
                             </td>
 
 
+                            {{-- SATUAN --}}
                             <td>
                                 {{ $item->satuan }}
                             </td>
 
 
+                            {{-- HARGA BELI --}}
                             <td class="text-end">
 
                                 Rp {{ number_format(
@@ -483,6 +662,7 @@
                             </td>
 
 
+                            {{-- HARGA JUAL --}}
                             <td class="text-end">
 
                                 Rp {{ number_format(
@@ -495,6 +675,7 @@
                             </td>
 
 
+                            {{-- STATUS --}}
                             <td class="text-center">
 
                                 @if($item->stok <= 0)
