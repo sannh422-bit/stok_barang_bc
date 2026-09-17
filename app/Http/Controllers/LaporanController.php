@@ -10,30 +10,19 @@ use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | LAPORAN BARANG MASUK
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Laporan Barang Masuk
+     */
     public function barangMasuk(Request $request)
     {
         $query = BarangMasuk::with('barang');
 
         if ($request->filled('tanggal_mulai')) {
-            $query->whereDate(
-                'tanggal',
-                '>=',
-                $request->tanggal_mulai
-            );
+            $query->whereDate('tanggal', '>=', $request->tanggal_mulai);
         }
 
         if ($request->filled('tanggal_akhir')) {
-            $query->whereDate(
-                'tanggal',
-                '<=',
-                $request->tanggal_akhir
-            );
+            $query->whereDate('tanggal', '<=', $request->tanggal_akhir);
         }
 
         $barangMasuk = $query
@@ -52,30 +41,19 @@ class LaporanController extends Controller
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | LAPORAN BARANG KELUAR
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Laporan Barang Keluar
+     */
     public function barangKeluar(Request $request)
     {
         $query = BarangKeluar::with('barang');
 
         if ($request->filled('tanggal_mulai')) {
-            $query->whereDate(
-                'tanggal',
-                '>=',
-                $request->tanggal_mulai
-            );
+            $query->whereDate('tanggal', '>=', $request->tanggal_mulai);
         }
 
         if ($request->filled('tanggal_akhir')) {
-            $query->whereDate(
-                'tanggal',
-                '<=',
-                $request->tanggal_akhir
-            );
+            $query->whereDate('tanggal', '<=', $request->tanggal_akhir);
         }
 
         $barangKeluar = $query
@@ -94,31 +72,12 @@ class LaporanController extends Controller
     }
 
 
-    /*
-    |--------------------------------------------------------------------------
-    | LAPORAN STOK
-    |--------------------------------------------------------------------------
-    */
-
+    /**
+     * Laporan Stok
+     */
     public function stok(Request $request)
     {
-        /*
-        |--------------------------------------------------------------------------
-        | QUERY DATA BARANG
-        |--------------------------------------------------------------------------
-        */
-
-        $query = Barang::with([
-            'kategori',
-            'supplier'
-        ]);
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | PENCARIAN BARANG
-        |--------------------------------------------------------------------------
-        */
+        $query = Barang::with(['kategori', 'supplier']);
 
         if ($request->filled('search')) {
 
@@ -126,18 +85,19 @@ class LaporanController extends Controller
 
             $query->where(function ($q) use ($search) {
 
-                $q->where('kode_barang', 'like', '%' . $search . '%')
-                    ->orWhere('nama_barang', 'like', '%' . $search . '%');
+                $q->where(
+                    'kode_barang',
+                    'like',
+                    '%' . $search . '%'
+                )
+                ->orWhere(
+                    'nama_barang',
+                    'like',
+                    '%' . $search . '%'
+                );
 
             });
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER KATEGORI
-        |--------------------------------------------------------------------------
-        */
 
         if ($request->filled('kategori_id')) {
 
@@ -146,13 +106,6 @@ class LaporanController extends Controller
                 $request->kategori_id
             );
         }
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | FILTER STATUS STOK
-        |--------------------------------------------------------------------------
-        */
 
         if ($request->filled('status')) {
 
@@ -164,14 +117,13 @@ class LaporanController extends Controller
 
                     break;
 
-
                 case 'menipis':
 
-                    $query->where('stok', '>', 0)
+                    $query
+                        ->where('stok', '>', 0)
                         ->where('stok', '<=', 5);
 
                     break;
-
 
                 case 'habis':
 
@@ -181,23 +133,9 @@ class LaporanController extends Controller
             }
         }
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | AMBIL DATA
-        |--------------------------------------------------------------------------
-        */
-
         $barang = $query
             ->orderBy('nama_barang')
             ->get();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | STATISTIK BERDASARKAN HASIL FILTER
-        |--------------------------------------------------------------------------
-        */
 
         $totalBarang = $barang->count();
 
@@ -216,22 +154,8 @@ class LaporanController extends Controller
             ->where('stok', '<=', 0)
             ->count();
 
-
-        /*
-        |--------------------------------------------------------------------------
-        | DATA KATEGORI UNTUK FILTER
-        |--------------------------------------------------------------------------
-        */
-
         $kategoris = Kategori::orderBy('nama_kategori')
             ->get();
-
-
-        /*
-        |--------------------------------------------------------------------------
-        | KIRIM DATA KE VIEW
-        |--------------------------------------------------------------------------
-        */
 
         return view('laporan.stok', compact(
             'barang',
@@ -241,6 +165,93 @@ class LaporanController extends Controller
             'stokAman',
             'stokMenipis',
             'stokHabis'
+        ));
+    }
+
+
+    /**
+     * Laporan Pendapatan
+     */
+    public function pendapatan(Request $request)
+    {
+        $query = BarangKeluar::with('barang');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Filter tanggal
+        |--------------------------------------------------------------------------
+        */
+
+        if ($request->filled('tanggal_mulai')) {
+
+            $query->whereDate(
+                'tanggal',
+                '>=',
+                $request->tanggal_mulai
+            );
+        }
+
+        if ($request->filled('tanggal_akhir')) {
+
+            $query->whereDate(
+                'tanggal',
+                '<=',
+                $request->tanggal_akhir
+            );
+        }
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Ambil data
+        |--------------------------------------------------------------------------
+        */
+
+        $barangKeluar = $query
+            ->latest('tanggal')
+            ->get();
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Hitung total
+        |--------------------------------------------------------------------------
+        */
+
+        $totalTransaksi = $barangKeluar->count();
+
+        $totalJumlah = $barangKeluar->sum('jumlah');
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Hitung pendapatan
+        |
+        | jumlah barang keluar × harga jual
+        |--------------------------------------------------------------------------
+        */
+
+        $totalPendapatan = $barangKeluar->sum(function ($item) {
+
+            if (!$item->barang) {
+                return 0;
+            }
+
+            return $item->jumlah * $item->barang->harga_jual;
+        });
+
+
+        /*
+        |--------------------------------------------------------------------------
+        | Kirim ke view
+        |--------------------------------------------------------------------------
+        */
+
+        return view('laporan.pendapatan', compact(
+            'barangKeluar',
+            'totalTransaksi',
+            'totalJumlah',
+            'totalPendapatan'
         ));
     }
 }

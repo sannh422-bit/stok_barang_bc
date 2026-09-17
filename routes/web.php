@@ -71,6 +71,9 @@ Route::get('/laporan/barang-masuk', [LaporanController::class, 'barangMasuk'])
 
 Route::get('/laporan/barang-keluar', [LaporanController::class, 'barangKeluar'])
     ->name('laporan.barang-keluar');
+
+    Route::get('/laporan/pendapatan', [LaporanController::class, 'pendapatan'])
+    ->name('laporan.pendapatan');
     /*
     |--------------------------------------------------------------------------
     | USER

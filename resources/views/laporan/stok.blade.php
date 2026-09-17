@@ -79,7 +79,7 @@
             <div class="row g-3">
 
                 {{-- LAPORAN STOK --}}
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-3">
 
                     <a
                         href="{{ route('laporan.stok') }}"
@@ -117,7 +117,7 @@
 
 
                 {{-- LAPORAN BARANG MASUK --}}
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-3">
 
                     <a
                         href="{{ route('laporan.barang-masuk') }}"
@@ -155,7 +155,7 @@
 
 
                 {{-- LAPORAN BARANG KELUAR --}}
-                <div class="col-md-4">
+                <div class="col-md-6 col-lg-3">
 
                     <a
                         href="{{ route('laporan.barang-keluar') }}"
@@ -179,6 +179,44 @@
 
                                     <small class="text-muted">
                                         Melihat riwayat barang yang keluar.
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </a>
+
+                </div>
+
+
+                {{-- LAPORAN PENDAPATAN --}}
+                <div class="col-md-6 col-lg-3">
+
+                    <a
+                        href="{{ route('laporan.pendapatan') }}"
+                        class="text-decoration-none">
+
+                        <div class="border rounded p-3 h-100 bg-white">
+
+                            <div class="d-flex align-items-center">
+
+                                <div class="me-3">
+
+                                    <i class="bi bi-cash-stack fs-2 text-warning"></i>
+
+                                </div>
+
+                                <div>
+
+                                    <h6 class="fw-bold mb-1 text-dark">
+                                        Laporan Pendapatan
+                                    </h6>
+
+                                    <small class="text-muted">
+                                        Melihat rekap pendapatan penjualan.
                                     </small>
 
                                 </div>
