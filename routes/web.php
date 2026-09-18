@@ -25,67 +25,160 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     /*
     |--------------------------------------------------------------------------
-    | Dashboard
+    | DASHBOARD
     |--------------------------------------------------------------------------
     */
 
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
-    /*
-    |--------------------------------------------------------------------------
-    | MASTER DATA
-    |--------------------------------------------------------------------------
-    */
-
-    // Barang (CRUD)
-    Route::resource('barang', BarangController::class);
-
-    // Kategori (CRUD)
-    Route::resource('kategori', KategoriController::class);
-
-    // Supplier (CRUD)
-    Route::resource('supplier', SupplierController::class);
 
     /*
     |--------------------------------------------------------------------------
-    | TRANSAKSI
+    | MASTER DATA - BISA DILIHAT ADMIN & USER
     |--------------------------------------------------------------------------
     */
 
-    // Barang Masuk (CRUD)
+    // =========================
+    // BARANG
+    // =========================
+
+    Route::get('/barang', [BarangController::class, 'index'])
+        ->name('barang.index');
+
+    Route::get('/barang/{barang}', [BarangController::class, 'show'])
+        ->name('barang.show');
+
+
+    // =========================
+    // KATEGORI
+    // =========================
+
+    Route::get('/kategori', [KategoriController::class, 'index'])
+        ->name('kategori.index');
+
+    Route::get('/kategori/{kategori}', [KategoriController::class, 'show'])
+        ->name('kategori.show');
+
+
+    // =========================
+    // SUPPLIER
+    // =========================
+
+    Route::get('/supplier', [SupplierController::class, 'index'])
+        ->name('supplier.index');
+
+    Route::get('/supplier/{supplier}', [SupplierController::class, 'show'])
+        ->name('supplier.show');
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | MASTER DATA - ADMIN SAJA
+    |--------------------------------------------------------------------------
+    */
+
+    Route::middleware('role:admin')->group(function () {
+
+        // Barang
+        Route::get('/barang/create', [BarangController::class, 'create'])
+            ->name('barang.create');
+
+        Route::post('/barang', [BarangController::class, 'store'])
+            ->name('barang.store');
+
+        Route::get('/barang/{barang}/edit', [BarangController::class, 'edit'])
+            ->name('barang.edit');
+
+        Route::put('/barang/{barang}', [BarangController::class, 'update'])
+            ->name('barang.update');
+
+        Route::delete('/barang/{barang}', [BarangController::class, 'destroy'])
+            ->name('barang.destroy');
+
+
+        // Kategori
+        Route::get('/kategori/create', [KategoriController::class, 'create'])
+            ->name('kategori.create');
+
+        Route::post('/kategori', [KategoriController::class, 'store'])
+            ->name('kategori.store');
+
+        Route::get('/kategori/{kategori}/edit', [KategoriController::class, 'edit'])
+            ->name('kategori.edit');
+
+        Route::put('/kategori/{kategori}', [KategoriController::class, 'update'])
+            ->name('kategori.update');
+
+        Route::delete('/kategori/{kategori}', [KategoriController::class, 'destroy'])
+            ->name('kategori.destroy');
+
+
+        // Supplier
+        Route::get('/supplier/create', [SupplierController::class, 'create'])
+            ->name('supplier.create');
+
+        Route::post('/supplier', [SupplierController::class, 'store'])
+            ->name('supplier.store');
+
+        Route::get('/supplier/{supplier}/edit', [SupplierController::class, 'edit'])
+            ->name('supplier.edit');
+
+        Route::put('/supplier/{supplier}', [SupplierController::class, 'update'])
+            ->name('supplier.update');
+
+        Route::delete('/supplier/{supplier}', [SupplierController::class, 'destroy'])
+            ->name('supplier.destroy');
+    });
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | TRANSAKSI - ADMIN & USER
+    |--------------------------------------------------------------------------
+    */
+
+    // Barang Masuk
     Route::resource('barang-masuk', BarangMasukController::class);
 
+    // Barang Keluar
     Route::resource('barang-keluar', BarangKeluarController::class);
 
+
     /*
     |--------------------------------------------------------------------------
-    | LAPORAN
+    | LAPORAN - ADMIN & USER
     |--------------------------------------------------------------------------
     */
-Route::get('/laporan/stok', [LaporanController::class, 'stok'])
-    ->name('laporan.stok');
-    
-Route::get('/laporan/barang-masuk', [LaporanController::class, 'barangMasuk'])
-    ->name('laporan.barang-masuk');
 
-Route::get('/laporan/barang-keluar', [LaporanController::class, 'barangKeluar'])
-    ->name('laporan.barang-keluar');
+    Route::get('/laporan/stok', [LaporanController::class, 'stok'])
+        ->name('laporan.stok');
+
+    Route::get('/laporan/barang-masuk', [LaporanController::class, 'barangMasuk'])
+        ->name('laporan.barang-masuk');
+
+    Route::get('/laporan/barang-keluar', [LaporanController::class, 'barangKeluar'])
+        ->name('laporan.barang-keluar');
 
     Route::get('/laporan/pendapatan', [LaporanController::class, 'pendapatan'])
-    ->name('laporan.pendapatan');
+        ->name('laporan.pendapatan');
+
+
     /*
     |--------------------------------------------------------------------------
-    | USER
+    | KELOLA PENGGUNA - ADMIN SAJA
     |--------------------------------------------------------------------------
     */
+Route::middleware('role:admin')->group(function () {
 
-    Route::view('/users', 'users.index')
-        ->name('users.index');
+    Route::resource('users', \App\Http\Controllers\UserController::class)
+        ->except(['show']);
+});
+
 
     /*
     |--------------------------------------------------------------------------
-    | PROFILE
+    | PROFILE - ADMIN & USER
     |--------------------------------------------------------------------------
     */
 
@@ -98,14 +191,16 @@ Route::get('/laporan/barang-keluar', [LaporanController::class, 'barangKeluar'])
     Route::delete('/profile', [ProfileController::class, 'destroy'])
         ->name('profile.destroy');
 
-        /*
+
+    /*
     |--------------------------------------------------------------------------
-    | pendapatan
+    | PENDAPATAN - ADMIN & USER
     |--------------------------------------------------------------------------
     */
 
-        Route::get('/pendapatan', [DashboardController::class, 'pendapatan'])
-    ->name('pendapatan.index');
+    Route::get('/pendapatan', [DashboardController::class, 'pendapatan'])
+        ->name('pendapatan.index');
 });
+
 
 require __DIR__.'/auth.php';

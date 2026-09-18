@@ -19,14 +19,49 @@
     <style>
 
         /* =========================================================
-           PRINT STYLE
+           PRINT
         ========================================================= */
 
         @media print {
 
-            /* -----------------------------------------------------
-               SEMBUNYIKAN ELEMEN WEBSITE
-            ----------------------------------------------------- */
+            /* =====================================================
+               RESET DASAR
+            ===================================================== */
+
+            html,
+            body {
+
+                width: 100% !important;
+
+                min-width: 0 !important;
+
+                max-width: none !important;
+
+                height: auto !important;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
+
+                background: #ffffff !important;
+
+                overflow: visible !important;
+
+            }
+
+
+            body {
+
+                font-family: Arial, Helvetica, sans-serif !important;
+
+                color: #000000 !important;
+
+            }
+
+
+            /* =====================================================
+               HILANGKAN BAGIAN WEBSITE
+            ===================================================== */
 
             .sidebar,
             .navbar,
@@ -54,6 +89,8 @@
 
                 visibility: hidden !important;
 
+                width: 0 !important;
+
                 height: 0 !important;
 
                 min-height: 0 !important;
@@ -64,41 +101,28 @@
 
                 padding: 0 !important;
 
+                overflow: hidden !important;
+
             }
 
 
-            /* -----------------------------------------------------
-               RESET HALAMAN
-            ----------------------------------------------------- */
+            /* =====================================================
+               MAIN CONTENT
+            ===================================================== */
 
-            html,
-            body {
+            .main-content {
+
+                display: block !important;
+
+                position: static !important;
 
                 width: 100% !important;
 
                 min-width: 0 !important;
 
-                margin: 0 !important;
+                max-width: none !important;
 
-                padding: 0 !important;
-
-                background: #ffffff !important;
-
-            }
-
-
-            body {
-
-                font-family: Arial, Helvetica, sans-serif !important;
-
-                color: #000000 !important;
-
-            }
-
-
-            .main-content {
-
-                width: 100% !important;
+                height: auto !important;
 
                 min-height: 0 !important;
 
@@ -106,25 +130,71 @@
 
                 padding: 0 !important;
 
+                left: auto !important;
+
+                right: auto !important;
+
+                top: auto !important;
+
+                bottom: auto !important;
+
+                transform: none !important;
+
+                float: none !important;
+
             }
 
 
-            .content {
+            main.content,
+            .main-content .content {
+
+                display: block !important;
+
+                position: static !important;
 
                 width: 100% !important;
+
+                min-width: 0 !important;
+
+                max-width: none !important;
+
+                height: auto !important;
+
+                min-height: 0 !important;
 
                 margin: 0 !important;
 
                 padding: 0 !important;
 
+                left: auto !important;
+
+                right: auto !important;
+
+                top: auto !important;
+
+                bottom: auto !important;
+
+                transform: none !important;
+
+                float: none !important;
+
             }
 
 
+            /* =====================================================
+               CONTAINER
+            ===================================================== */
+
+            .container,
             .container-fluid {
 
+                display: block !important;
+
                 width: 100% !important;
 
-                max-width: 100% !important;
+                min-width: 0 !important;
+
+                max-width: none !important;
 
                 margin: 0 !important;
 
@@ -133,9 +203,9 @@
             }
 
 
-            /* -----------------------------------------------------
+            /* =====================================================
                HEADER CETAK
-            ----------------------------------------------------- */
+            ===================================================== */
 
             .print-header {
 
@@ -143,7 +213,11 @@
 
                 width: 100% !important;
 
-                margin: 0 0 18px 0 !important;
+                max-width: none !important;
+
+                box-sizing: border-box !important;
+
+                margin: 0 0 16px 0 !important;
 
                 padding: 0 0 12px 0 !important;
 
@@ -160,6 +234,8 @@
 
                 margin: 0 !important;
 
+                padding: 0 !important;
+
                 font-size: 21px !important;
 
                 line-height: 1.2 !important;
@@ -175,6 +251,8 @@
 
                 margin: 3px 0 0 0 !important;
 
+                padding: 0 !important;
+
                 font-size: 15px !important;
 
                 line-height: 1.2 !important;
@@ -188,7 +266,9 @@
 
             .print-header h4 {
 
-                margin: 14px 0 4px 0 !important;
+                margin: 13px 0 4px 0 !important;
+
+                padding: 0 !important;
 
                 font-size: 17px !important;
 
@@ -203,9 +283,13 @@
 
             .print-header p {
 
-                margin: 3px 0 5px 0 !important;
+                margin: 3px 0 4px 0 !important;
+
+                padding: 0 !important;
 
                 font-size: 10px !important;
+
+                line-height: 1.3 !important;
 
                 color: #000000 !important;
 
@@ -216,16 +300,20 @@
 
                 margin: 0 !important;
 
+                padding: 0 !important;
+
                 font-size: 9px !important;
+
+                line-height: 1.2 !important;
 
                 color: #000000 !important;
 
             }
 
 
-            /* -----------------------------------------------------
+            /* =====================================================
                RINGKASAN LAPORAN
-            ----------------------------------------------------- */
+            ===================================================== */
 
             .report-summary {
 
@@ -233,13 +321,19 @@
 
                 flex-direction: row !important;
 
+                flex-wrap: nowrap !important;
+
                 align-items: stretch !important;
 
                 justify-content: space-between !important;
 
                 width: 100% !important;
 
-                margin: 0 0 18px 0 !important;
+                min-width: 0 !important;
+
+                max-width: none !important;
+
+                margin: 0 0 14px 0 !important;
 
                 padding: 0 !important;
 
@@ -250,13 +344,15 @@
 
             .report-summary > div {
 
+                display: block !important;
+
                 flex: 1 1 0 !important;
 
-                width: auto !important;
-
-                max-width: none !important;
+                width: 0 !important;
 
                 min-width: 0 !important;
+
+                max-width: none !important;
 
                 margin: 0 !important;
 
@@ -267,9 +363,13 @@
 
             .report-summary .card {
 
+                display: block !important;
+
                 width: 100% !important;
 
-                min-height: 65px !important;
+                min-width: 0 !important;
+
+                min-height: 60px !important;
 
                 height: 100% !important;
 
@@ -292,6 +392,8 @@
 
                 padding: 9px 11px !important;
 
+                margin: 0 !important;
+
             }
 
 
@@ -300,6 +402,8 @@
                 display: block !important;
 
                 margin: 0 0 4px 0 !important;
+
+                padding: 0 !important;
 
                 font-size: 9px !important;
 
@@ -312,7 +416,11 @@
 
             .report-summary h3 {
 
+                display: block !important;
+
                 margin: 0 !important;
+
+                padding: 0 !important;
 
                 font-size: 17px !important;
 
@@ -325,13 +433,17 @@
             }
 
 
-            /* -----------------------------------------------------
+            /* =====================================================
                CARD
-            ----------------------------------------------------- */
+            ===================================================== */
 
             .card {
 
-                margin-bottom: 14px !important;
+                width: 100% !important;
+
+                max-width: none !important;
+
+                margin-bottom: 12px !important;
 
                 border: 1px solid #000000 !important;
 
@@ -348,6 +460,8 @@
 
                 padding: 7px 9px !important;
 
+                margin: 0 !important;
+
                 background: #ffffff !important;
 
                 color: #000000 !important;
@@ -361,7 +475,11 @@
 
                 margin: 0 !important;
 
+                padding: 0 !important;
+
                 font-size: 12px !important;
+
+                line-height: 1.2 !important;
 
                 font-weight: 700 !important;
 
@@ -374,18 +492,28 @@
 
                 background: #ffffff !important;
 
+                margin: 0 !important;
+
             }
 
 
-            /* -----------------------------------------------------
+            /* =====================================================
                TABEL
-            ----------------------------------------------------- */
+            ===================================================== */
 
             .table-responsive {
 
+                display: block !important;
+
                 width: 100% !important;
 
-                max-width: 100% !important;
+                min-width: 0 !important;
+
+                max-width: none !important;
+
+                margin: 0 !important;
+
+                padding: 0 !important;
 
                 overflow: visible !important;
 
@@ -394,19 +522,25 @@
 
             table {
 
+                display: table !important;
+
                 width: 100% !important;
 
-                max-width: 100% !important;
+                min-width: 100% !important;
+
+                max-width: none !important;
 
                 margin: 0 !important;
+
+                padding: 0 !important;
 
                 border-collapse: collapse !important;
 
                 border-spacing: 0 !important;
 
-                color: #000000 !important;
+                table-layout: fixed !important;
 
-                table-layout: auto !important;
+                color: #000000 !important;
 
             }
 
@@ -414,19 +548,25 @@
             th,
             td {
 
-                padding: 6px 7px !important;
+                box-sizing: border-box !important;
 
                 border: 1px solid #000000 !important;
+
+                padding: 6px 7px !important;
+
+                font-size: 9px !important;
+
+                line-height: 1.25 !important;
+
+                vertical-align: middle !important;
 
                 color: #000000 !important;
 
                 background: #ffffff !important;
 
-                font-size: 9.5px !important;
+                word-break: normal !important;
 
-                line-height: 1.25 !important;
-
-                vertical-align: middle !important;
+                overflow-wrap: break-word !important;
 
             }
 
@@ -437,35 +577,63 @@
 
                 font-weight: 700 !important;
 
-                text-align: left !important;
+                color: #000000 !important;
 
             }
 
 
-            th:first-child,
-            td:first-child {
+            /* =====================================================
+               KOLOM LAPORAN PENDAPATAN
+            ===================================================== */
 
-                width: 35px !important;
+            th:nth-child(1),
+            td:nth-child(1) {
+
+                width: 5% !important;
 
                 text-align: center !important;
 
             }
 
 
-            /* Kolom jumlah */
+            th:nth-child(2),
+            td:nth-child(2) {
+
+                width: 13% !important;
+
+            }
+
+
+            th:nth-child(3),
+            td:nth-child(3) {
+
+                width: 15% !important;
+
+            }
+
+
+            th:nth-child(4),
+            td:nth-child(4) {
+
+                width: 21% !important;
+
+            }
+
 
             th:nth-child(5),
             td:nth-child(5) {
 
+                width: 10% !important;
+
                 text-align: center !important;
 
             }
 
 
-            /* Kolom harga */
-
             th:nth-child(6),
             td:nth-child(6) {
+
+                width: 18% !important;
 
                 text-align: right !important;
 
@@ -473,12 +641,12 @@
 
             }
 
-
-            /* Kolom pendapatan */
 
             th:nth-child(7),
             td:nth-child(7) {
 
+                width: 18% !important;
+
                 text-align: right !important;
 
                 white-space: nowrap !important;
@@ -486,29 +654,135 @@
             }
 
 
-            /* -----------------------------------------------------
-               FOOTER TABLE
-            ----------------------------------------------------- */
+            /* =====================================================
+               TABEL LAPORAN STOK
+               10 KOLOM
+            ===================================================== */
+
+            .table-responsive table:has(th:nth-child(10)) {
+
+                table-layout: fixed !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(1),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(1) {
+
+                width: 5% !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(2),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(2) {
+
+                width: 10% !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(3),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(3) {
+
+                width: 16% !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(4),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(4) {
+
+                width: 12% !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(5),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(5) {
+
+                width: 12% !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(6),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(6) {
+
+                width: 8% !important;
+
+                text-align: center !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(7),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(7) {
+
+                width: 8% !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(8),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(8) {
+
+                width: 11% !important;
+
+                text-align: right !important;
+
+                white-space: nowrap !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(9),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(9) {
+
+                width: 11% !important;
+
+                text-align: right !important;
+
+                white-space: nowrap !important;
+
+            }
+
+
+            .table-responsive table:has(th:nth-child(10)) th:nth-child(10),
+            .table-responsive table:has(th:nth-child(10)) td:nth-child(10) {
+
+                width: 7% !important;
+
+                text-align: center !important;
+
+            }
+
+
+            /* =====================================================
+               TABLE FOOTER
+            ===================================================== */
 
             tfoot th,
             tfoot td {
 
                 background: #eeeeee !important;
 
-                font-weight: 700 !important;
-
                 color: #000000 !important;
+
+                font-weight: 700 !important;
 
             }
 
 
-            /* -----------------------------------------------------
+            /* =====================================================
                BADGE
-            ----------------------------------------------------- */
+            ===================================================== */
 
             .badge {
 
                 display: inline !important;
+
+                margin: 0 !important;
 
                 padding: 0 !important;
 
@@ -527,9 +801,9 @@
             }
 
 
-            /* -----------------------------------------------------
+            /* =====================================================
                WARNA TEKS
-            ----------------------------------------------------- */
+            ===================================================== */
 
             .text-primary,
             .text-success,
@@ -543,34 +817,45 @@
             }
 
 
-            /* -----------------------------------------------------
-               SPACING
-            ----------------------------------------------------- */
+            /* =====================================================
+               BOOTSTRAP ROW
+            ===================================================== */
 
-            .mb-4 {
+            .row {
 
-                margin-bottom: 14px !important;
+                width: 100% !important;
 
-            }
+                min-width: 0 !important;
 
+                max-width: none !important;
 
-            .mb-3 {
+                margin-left: 0 !important;
 
-                margin-bottom: 10px !important;
-
-            }
-
-
-            .mt-3 {
-
-                margin-top: 10px !important;
+                margin-right: 0 !important;
 
             }
 
 
-            /* -----------------------------------------------------
-               HINDARI ELEMEN TERPOTONG
-            ----------------------------------------------------- */
+            /* =====================================================
+               HILANGKAN SHADOW
+            ===================================================== */
+
+            * {
+
+                box-shadow: none !important;
+
+                text-shadow: none !important;
+
+                -webkit-print-color-adjust: exact !important;
+
+                print-color-adjust: exact !important;
+
+            }
+
+
+            /* =====================================================
+               JANGAN POTONG BARIS TABEL
+            ===================================================== */
 
             tr {
 
@@ -593,32 +878,15 @@
             }
 
 
-            /* -----------------------------------------------------
-               HILANGKAN SHADOW
-            ----------------------------------------------------- */
-
-            * {
-
-                box-shadow: none !important;
-
-                text-shadow: none !important;
-
-                -webkit-print-color-adjust: exact !important;
-
-                print-color-adjust: exact !important;
-
-            }
-
-
-            /* -----------------------------------------------------
-               UKURAN KERTAS
-            ----------------------------------------------------- */
+            /* =====================================================
+               PAGE
+            ===================================================== */
 
             @page {
 
                 size: A4 portrait;
 
-                margin: 12mm;
+                margin: 10mm;
 
             }
 
